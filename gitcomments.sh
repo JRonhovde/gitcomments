@@ -1,6 +1,6 @@
 # !bin/bash
 gitcomments() {
-    FILE="/usr/tmp/gitcomments.txt"
+    FILE="/usr/tmp/$USER-gitcomments.txt"
     if [ -n "$2" ]
     then
         FILE="$2"

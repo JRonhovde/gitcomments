@@ -7,10 +7,11 @@ import os
 import re
 import pprint
 import subprocess
+import inspect
 
-thisDir = os.getcwd()
 
-with open('/home/jronhovde/gitcomments/gitcomments.json') as data_file:
+parentDir = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
+with open(parentDir+'/gitcomments.json') as data_file:
     data = json.load(data_file)
 
 username = data['username']
@@ -30,7 +31,6 @@ branchname = sys.argv[1]
 filename = sys.argv[2]
 
 getPR = 'curl --user '+username+':'+token+' https://api.github.com/repos/'+repoOwner+'/'+repoName+'/pulls?head='+repoOwner+':'+branchname
-print getPR
 process1 = subprocess.Popen(getPR.split(), stdout=subprocess.PIPE)
 try:
     pullRequestJSON = process1.communicate()[0]

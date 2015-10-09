@@ -1,0 +1,7 @@
+# replace UNAME with your github username
+# replace TOKEN with your github personal access token with repo permissions
+# delete these 3 instructional lines and save this file as gitcomments.json
+{
+    "username":"UNAME",
+    "token":"TOKEN"
+}
