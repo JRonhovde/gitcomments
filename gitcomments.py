@@ -37,7 +37,7 @@ try:
     pullRequestList = json.loads(pullRequestJSON)[0]
     url = pullRequestList['review_comments_url']
 except:
-    sys.exit('Invalid branch. Check that your branch is spelled correctly.')
+    sys.exit('Invalid branch. Check that your branch is spelled correctly. Also check that your branch is associated with a pull request on GitHub')
 
 getComments = 'curl --user '+username+':'+token+' '+url+'?per_page=100'
 process2 = subprocess.Popen(getComments.split(), stdout=subprocess.PIPE)
@@ -47,6 +47,8 @@ except:
     sys.exit('No result from GitHub API. Check to make sure your branch, "'+branchname+'" is attached to a Pull Request on GitHub.')
 
 commentList = json.loads(commentJSON)
+if len(commentList) == 0:
+    sys.exit("There are no review comments on this pull request")
 myfile = open(filename, 'w+')
 mySet = set()
 for comment in commentList:
