@@ -1,11 +1,9 @@
 #!/usr/bin/python
 
-import urllib2
 import json
 import sys
 import os
 import re
-import pprint
 import subprocess
 import inspect
 
