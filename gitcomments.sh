@@ -1,6 +1,6 @@
 # !bin/bash
 gitcomments() {
-    FILE="/usr/tmp/quickfix.txt"
+    FILE="/usr/tmp/gitcomments.txt"
     if [ -n "$2" ]
     then
         FILE="$2"
@@ -10,7 +10,6 @@ gitcomments() {
     then
         python ~/gitcomments/gitcomments.py $1 $FILE && vim "+copen | cfile $FILE"
     else
-        #python ~/gitcomments/gitcomments.py $(git rev-parse --abbrev-ref HEAD) $FILE && vim "+copen | cfile $FILE"
-        python ~/gitcomments/gitcomments.py $(git rev-parse --abbrev-ref HEAD) $FILE
+        python ~/gitcomments/gitcomments.py $(git rev-parse --abbrev-ref HEAD) $FILE && vim "+copen | cfile $FILE"
     fi
 }
