@@ -1,4 +1,5 @@
 #!/usr/bin/python
+#Version 1.0 - 2015-10-12
 
 import json
 import sys
@@ -9,8 +10,15 @@ import inspect
 
 
 parentDir = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
-with open(parentDir+'/gitcomments.json') as data_file:
-    data = json.load(data_file)
+jsonFile = parentDir+'/gitcomments.json'
+if os.path.isfile(jsonFile):
+    with open(jsonFile) as data_file:
+        try:
+            data = json.load(data_file)
+        except:
+            sys.exit(jsonFile+' is not a valid JSON file')
+else:
+    sys.exit('Could not find '+jsonFile+', see gitcomments.json.example for instructions')
 
 username = data['username']
 token = data['token']
@@ -42,7 +50,7 @@ process2 = subprocess.Popen(getComments.split(), stdout=subprocess.PIPE)
 try:
     commentJSON = process2.communicate()[0]
 except:
-    sys.exit('No result from GitHub API. Check to make sure your branch, "'+branchname+'" is attached to a Pull Request on GitHub.')
+    sys.exit('No result from GitHub API. Check to make sure your branch, "'+branchname+'" is associated with a Pull Request on GitHub.')
 
 commentList = json.loads(commentJSON)
 if len(commentList) == 0:

@@ -1,5 +1,6 @@
 # gitcomments
 Retrieve GitHub pull request review comments and populate a vim quickfix list.
+Version 1.0 - 2015-10-12
 
 ### Setup    
 Clone this repository(probably into your home directory):   
