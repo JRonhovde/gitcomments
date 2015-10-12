@@ -8,3 +8,4 @@ gitcomments() {
         python ~/gitcomments/gitcomments.py $(git rev-parse --abbrev-ref HEAD) $FILE && vim "+copen | cfile $FILE"
     fi
 }
+alias vimgc='vim "+copen | cfile /usr/tmp/'$USER'-gitcomments.txt"'
