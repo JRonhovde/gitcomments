@@ -23,18 +23,16 @@ else:
 username = data['username']
 token = data['token']
 
-getRepo = ['git', 'config', '--get', 'remote.origin.url']
-getRepoProcess = subprocess.Popen(getRepo, stdout=subprocess.PIPE,stderr=subprocess.PIPE)
-repoURL, err = getRepoProcess.communicate()
-repoObj = re.match(r'(https\:\/\/github\.com\/|git\@github\.com\:)([^\/]*)\/([^.]*)',str(repoURL))
+branchname = sys.argv[1]
+filename = sys.argv[2]
+repo = sys.argv[3]
+
+repoObj = re.match(r'(https\:\/\/github\.com\/|git\@github\.com\:)([^\/]*)\/([^.]*)',str(repo))
 try:
     repoOwner = repoObj.group(2)
     repoName = repoObj.group(3)
 except:
     sys.exit('Could not retrieve repository information, make sure you are in a git repository.')
-
-branchname = sys.argv[1]
-filename = sys.argv[2]
 
 getPR = 'curl --user '+username+':'+token+' https://api.github.com/repos/'+repoOwner+'/'+repoName+'/pulls?head='+repoOwner+':'+branchname
 process1 = subprocess.Popen(getPR.split(), stdout=subprocess.PIPE)
