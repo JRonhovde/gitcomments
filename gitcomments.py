@@ -5,8 +5,8 @@ import json
 import sys
 import os
 import re
-import subprocess
 import inspect
+import requests
 
 
 parentDir = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
@@ -34,23 +34,18 @@ try:
 except:
     sys.exit('Could not retrieve repository information, make sure you are in a git repository.')
 
-getPR = 'curl --user '+username+':'+token+' https://api.github.com/repos/'+repoOwner+'/'+repoName+'/pulls?head='+repoOwner+':'+branchname
-process1 = subprocess.Popen(getPR.split(), stdout=subprocess.PIPE)
+getPullRequestURL = "https://api.github.com/repos/"+repoOwner+"/"+repoName+"/pulls?head="+repoOwner+":"+branchname+"&access_token="+token
 try:
-    pullRequestJSON = process1.communicate()[0]
-    pullRequestList = json.loads(pullRequestJSON)[0]
-    url = pullRequestList['review_comments_url']
+     prURL = requests.get(getPullRequestURL).json()[0]['review_comments_url']
 except:
     sys.exit('Invalid branch. Check that your branch is spelled correctly. Also check that your branch is associated with a pull request on GitHub')
 
-getComments = 'curl --user '+username+':'+token+' '+url+'?per_page=100'
-process2 = subprocess.Popen(getComments.split(), stdout=subprocess.PIPE)
+getCommentsURL = prURL+"?per_page=100&access_token="+token
 try:
-    commentJSON = process2.communicate()[0]
+    commentList = requests.get(getCommentsURL).json()
 except:
     sys.exit('No result from GitHub API. Check to make sure your branch, "'+branchname+'" is associated with a Pull Request on GitHub.')
 
-commentList = json.loads(commentJSON)
 if len(commentList) == 0:
     sys.exit("There are no review comments on this pull request")
 myfile = open(filename, 'w+')
